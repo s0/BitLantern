@@ -102,6 +102,81 @@ of the data, so that people can host their own servers, but synchronize with
 the main server / any other mirrors to mirror / distribute the data (making the
 system inherently more robust, ala PGP keyservers).
 
+## Signature Data
+
+The data that will be signed by verifiers will be a json file of this format:
+
+```json
+{
+  "src": "https://github.com/WhisperSystems/Signal-Android.git",
+  "version": "3.15.2",
+  "srcVersion": "a307ff350c4f2ef0c778b1e2fd4656cb6ac086e6",
+  "label": "Play Store APK",
+  "verifications": [
+    {
+      "type": "gpg",
+      "data": "-----BEGIN PGP SIGNATURE-----\nComment: ..."
+    },
+    {
+      "type": "sha256",
+      "data": "097a35284640d7fad85ff00b3ac100bcc207556176080071723c4bed37889057"
+    },
+    ...
+  ]
+}
+```
+
+**Field Breakdown:**
+
+* `"src"` - a URL to the repository of the source code, in this example, a https
+  git repo to the GitHub repository of Signal.
+* `"version"` - the version string of the version being signed.
+* `"srcVersion"` - a unique reference to version of the source code in the VCS
+  system for this project (for git, this would be the full commit hash).
+* `"label"` - a text string identifying what kind of binary data produced from
+  the source is being verified, for example:
+  * A source repository may have different build targets (linux, windows,
+    OSX...), and each of the files for each of the different platforms will
+    require a separate verification, and should be labelled appropriately.
+  * The output of a build may be multiple different files, each of which need to
+    be distributed separately, and therefore signed separately. A good label for
+    each of these may be the filenames.
+  * A project may be used accross many different linux distributions and
+    package repositories, and each of these distributions will require
+    distributing the packages in a different manner (`.deb`, `.tar.gz`, ...), so
+    therefore each will require separate signatures and appropriate labels.
+* `"verifications"` - a list of verifications, either just hashes of the files,
+  or a gpg signature of the file.
+
+  There will be a minimum requirement of at least a particular hash algorithm
+  (probably sha256) which will serve as **canonical** hash of a file, and the
+  way in which we correlate verifications of the same file over different
+  algorithms. The API server will only accept verifications which meet this
+  requirement.
+
+  (We could potentially change which hash this is at a later date, which would
+  change the way in which we canonicalize verifications).
+
+**A note on GPG:**
+
+Usage of GPG as a "hash" will allow for simpler systems to be implemented using
+the API service as a GPG signature lookup server, treating GPG in whatever
+manner they see fit, without having to implement the complete signing and
+verification protocol of this service, and understand this JSON format.
+
+i.e: this opens up the possibility to being able to just make a `http(s)`
+request for "give me the GPG signatures for the file with this hash", and then
+using the GPG signatures directly.
+
+### Signing
+
+(yet to be finalised)
+
+The signature could either just be a GPG signature, or it could be a keybase
+signature, or it could potentially be either / both. This needs to be
+discussed... either way, it probably needs to be something that can be tied to
+a user identity, so a raw NaCl signature, for example, probably won't do.
+
 ## API
 
 The API will mostly be auth-less (including calls to upload signatures for a
@@ -116,6 +191,29 @@ give auth to project owners, verifying for example via GitHub).
 * Given a file / sha2 hash:
   * Get the verifications of this file
 * Upload a signature
+
+# Get list of projects
+
+```
+GET /api/projects
+```
+
+```json
+[
+  {
+    "id": 1234,
+    "name": "Signal Android",
+    "url": "https://play.google.com/store/apps/...",
+    "icon": "https://.../icon.png",
+    "src": [
+      "https://github.com/WhisperSystems/Signal-Android.git"
+    ]
+  },
+  ...
+]
+```
+
+
 
 ## Data Model
 
