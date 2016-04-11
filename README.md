@@ -61,14 +61,14 @@ general problem (and has nothing to do with reproducible / deterministic builds,
 and in fact conceptually doesn't even require software to be Open Source).
 
 Cothority, conceptually, is a network of nodes that maintain a list of hashes
-that are considered "valid", for software, that would be the hash of the binary
+that are considered "valid"; for software, that would be the hash of the binary
 files. For a piece of software to be considered valid, it's hash must be
 submitted to the network, and naturally propagates throughout the whole network
 so all nodes eventually agree that it is valid.
 
 Users of the system can then ask a minimum number of nodes to verify if they
-have "witnessed" a particular hash, and if all of them have, the user can choose
-to continue using the binary.
+have "witnessed" a particular hash, and if enough of them have, the user can
+choose to continue using the binary.
 
 A good example of where this could be useful is with iOS software updates, if
 Apple were to use a system like this, it would be impossible to create a version
