@@ -245,11 +245,11 @@ Order by date (that's the date of the commit in the repo).
           "1234": 121,
           "333": 1
         },
-        "srcVersion": {
+        "srcVersions": {
           "a307ff350c4f2ef0c778b1e2fd4656cb6ac086e6": 121,
           "778b1e2fd4656cb6ac086e6a307ff350c4f2ef0c": 1
         },
-        "version": {
+        "versions": {
           "3.15.2": 101,
           "v3.15.2": 20,
           "v3.15.1": 1
@@ -291,11 +291,11 @@ GET /api/projects/1234/a307ff350c4f2ef0c778b1e2fd4656cb6ac086e6
         "1234": 121,
         "333": 1
       },
-      "srcVersion": {
+      "srcVersions": {
         "a307ff350c4f2ef0c778b1e2fd4656cb6ac086e6": 121,
         "778b1e2fd4656cb6ac086e6a307ff350c4f2ef0c": 1
       },
-      "version": {
+      "versions": {
         "3.15.2": 101,
         "v3.15.2": 20,
         "v3.15.1": 1
@@ -332,11 +332,11 @@ GET /api/hash/097a35284640d7fad85ff00b3ac100bcc207556176080071723c4bed37889057
     "1234": 121,
     "333": 1
   },
-  "srcVersion": {
+  "srcVersions": {
     "a307ff350c4f2ef0c778b1e2fd4656cb6ac086e6": 121,
     "778b1e2fd4656cb6ac086e6a307ff350c4f2ef0c": 1
   },
-  "version": {
+  "versions": {
     "3.15.2": 101,
     "v3.15.2": 20,
     "v3.15.1": 1
