@@ -149,7 +149,7 @@ The data that will be signed by verifiers will be a json file of this format:
   or a gpg signature of the file.
 
   There will be a minimum requirement of at least a particular hash algorithm
-  (probably sha256) which will serve as **canonical** hash of a file, and the
+  (probably blake2) which will serve as **canonical** hash of a file, and the
   way in which we correlate verifications of the same file over different
   algorithms. The API server will only accept verifications which meet this
   requirement.
@@ -259,9 +259,9 @@ Order by date (that's the date of the commit in the repo).
           "Play Store": 27
         },
         "verificationTypes": {
-          "sha256": 122,
+          "blake2": 122,
           "gpg": 56,
-          "blake2": 100
+          "sha256": 100
         }
       },
       "d4656cb...": {
@@ -305,9 +305,9 @@ GET /api/projects/1234/a307ff350c4f2ef0c778b1e2fd4656cb6ac086e6
         "Play Store": 27
       },
       "verificationTypes": {
-        "sha256": 122,
+        "blake2": 122,
         "gpg": 56,
-        "blake2": 100
+        "sha256": 100
       }
     },
     "d4656cb...": {
@@ -346,9 +346,9 @@ GET /api/hash/097a35284640d7fad85ff00b3ac100bcc207556176080071723c4bed37889057
     "Play Store": 27
   },
   "verificationTypes": {
-    "sha256": 122,
+    "blake2": 122,
     "gpg": 56,
-    "blake2": 100
+    "sha256": 100
   }
 }
 ```
