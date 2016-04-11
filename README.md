@@ -170,7 +170,7 @@ using the GPG signatures directly.
 
 ### Signing
 
-(yet to be finalised)
+*(yet to be finalised)*
 
 The signature could either just be a GPG signature, or it could be a keybase
 signature, or it could potentially be either / both. This needs to be
@@ -184,19 +184,14 @@ binary), due to the nature of this project. We may later require auth for some
 parts of the API (for example updating metadata for a project, we may want to
 give auth to project owners, verifying for example via GitHub).
 
-* Get list of projects
-* Given a project:
-  * Get Meta
-  * Get latest versions
-* Given a file / sha2 hash:
-  * Get the verifications of this file
-* Upload a signature
-
-# Get list of projects
+### Get list of projects
 
 ```
 GET /api/projects
 ```
+
+Order by something significant (unless otherwise specified), e.g. number of
+signatures.
 
 ```json
 [
@@ -213,7 +208,200 @@ GET /api/projects
 ]
 ```
 
+### Get a specific project's meta
 
+```
+GET /api/projects/1234
+```
+
+```json
+{
+  "id": 1234,
+  "name": "Signal Android",
+  "url": "https://play.google.com/store/apps/...",
+  "icon": "https://.../icon.png",
+  "src": [
+    "https://github.com/WhisperSystems/Signal-Android.git"
+  ]
+}
+```
+
+### Get a list of versions for a project
+
+```
+GET /api/projects/1234/versions?count=10
+```
+
+Order by date (that's the date of the commit in the repo).
+
+```json
+[
+  {
+    "date": 1460412723,
+    "srcVersion": "a307ff350c4f2ef0c778b1e2fd4656cb6ac086e6",
+    "binaries": {
+      "097a352...": {
+        "projects": {
+          "1234": 121,
+          "333": 1
+        },
+        "srcVersion": {
+          "a307ff350c4f2ef0c778b1e2fd4656cb6ac086e6": 121,
+          "778b1e2fd4656cb6ac086e6a307ff350c4f2ef0c": 1
+        },
+        "version": {
+          "3.15.2": 101,
+          "v3.15.2": 20,
+          "v3.15.1": 1
+        },
+        "labels": {
+          "Play Store APK": 95,
+          "Play Store": 27
+        },
+        "verificationTypes": {
+          "sha256": 122,
+          "gpg": 56,
+          "blake2": 100
+        }
+      },
+      "d4656cb...": {
+
+      },
+      ...
+    }
+
+  },
+  ...
+]
+```
+
+### Get details of binaries for a specific srcVersion (git hash)
+
+```
+GET /api/projects/1234/a307ff350c4f2ef0c778b1e2fd4656cb6ac086e6
+```
+
+```json
+{
+  "date": 1460412723,
+  "srcVersion": "a307ff350c4f2ef0c778b1e2fd4656cb6ac086e6",
+  "binaries": {
+    "097a352...": {
+      "projects": {
+        "1234": 121,
+        "333": 1
+      },
+      "srcVersion": {
+        "a307ff350c4f2ef0c778b1e2fd4656cb6ac086e6": 121,
+        "778b1e2fd4656cb6ac086e6a307ff350c4f2ef0c": 1
+      },
+      "version": {
+        "3.15.2": 101,
+        "v3.15.2": 20,
+        "v3.15.1": 1
+      },
+      "labels": {
+        "Play Store APK": 95,
+        "Play Store": 27
+      },
+      "verificationTypes": {
+        "sha256": 122,
+        "gpg": 56,
+        "blake2": 100
+      }
+    },
+    "d4656cb...": {
+
+    },
+    ...
+  }
+
+}
+```
+
+### Get details for a specific file hash
+
+```
+GET /api/hash/097a35284640d7fad85ff00b3ac100bcc207556176080071723c4bed37889057
+```
+
+```json
+{
+  "hash": "097a35284640d7fad85ff00b3ac100bcc207556176080071723c4bed37889057",
+  "projects": {
+    "1234": 121,
+    "333": 1
+  },
+  "srcVersion": {
+    "a307ff350c4f2ef0c778b1e2fd4656cb6ac086e6": 121,
+    "778b1e2fd4656cb6ac086e6a307ff350c4f2ef0c": 1
+  },
+  "version": {
+    "3.15.2": 101,
+    "v3.15.2": 20,
+    "v3.15.1": 1
+  },
+  "labels": {
+    "Play Store APK": 95,
+    "Play Store": 27
+  },
+  "verificationTypes": {
+    "sha256": 122,
+    "gpg": 56,
+    "blake2": 100
+  }
+}
+```
+
+### Get verifications for a specific file hash
+
+```
+GET /api/hash/097a352...057/verifications?count=10
+```
+
+```json
+[
+  {
+    "data": "-- escaped / encoded signed json data --",
+    "signature": "-- escaped / encoded signature --"
+  },
+  ...
+]
+```
+
+### Get verifications for a specific file hash that include a specific type
+
+```
+GET /api/hash/097a352...057/verifications?count=10&type=gpg
+```
+
+```json
+[
+  {
+    "data": "-- escaped / encoded signed json data --",
+    "signature": "-- escaped / encoded signature --"
+  },
+  ...
+]
+```
+
+### Get gpg signatures for a specific hash
+
+```
+GET /api/hash/097a352...057/gpg?count=10
+```
+
+```json
+[
+  "-----BEGIN PGP SIGNATURE-----\nComment: ...",
+  "-----BEGIN PGP SIGNATURE-----\nComment: ...",
+  ...
+]
+```
+
+### TODO
+
+API calls for uploading a signature
 
 ## Data Model
 
