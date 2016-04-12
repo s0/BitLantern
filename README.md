@@ -121,8 +121,13 @@ The data that will be signed by verifiers will be a json file of this format:
       "type": "sha256",
       "data": "097a35284640d7fad85ff00b3ac100bcc207556176080071723c4bed37889057"
     },
+  ],
+  "signature":{
+    "type":"saltpack",
+    "sig":"BEGIN SALTPACK SIGNED MESSAGE. kXR7VktZdyH7rvq v5wcIkHbs7XwHpb nPtLcF6vE5yY63t aHF62jiEC1zHGqD inx5YqK0nf5W9Lp TvUmM2zBwxgd3Nw kvzZ96W7ZfDdTVg F5Y99c2l5EsCy1I xVNl0nY1TP25vsX 2cRXXPUrM2UKtWq UK2HG2ifBSOED4w
     ...
-  ]
+    0hffDmUk71TlfVx XZCF3voC2ysgl3g YdLz4rDRzMJgd2m 01HIbfdsoZpAMty O27WtUNRLV1iyC9 tK5ApCyekI4nWcf 2OvTHnC8ma7bloW XAG. END SALTPACK SIGNED MESSAGE."
+  }
 }
 ```
 
@@ -147,6 +152,13 @@ The data that will be signed by verifiers will be a json file of this format:
     therefore each will require separate signatures and appropriate labels.
 * `"verifications"` - a list of verifications, either just hashes of the files,
   or a gpg signature of the file.
+
+
+* `"signature"` - a single signatures that signs a message constructed from the
+  preceding fields. Specifically,concatenate the values from "src","version",
+  "srcVersion","label",the data field from each verification. This can be either
+  a salpack or gpg signature
+
 
   There will be a minimum requirement of at least a particular hash algorithm
   (probably blake2) which will serve as **canonical** hash of a file, and the
@@ -176,6 +188,13 @@ The signature could either just be a GPG signature, or it could be a keybase
 signature, or it could potentially be either / both. This needs to be
 discussed... either way, it probably needs to be something that can be tied to
 a user identity, so a raw NaCl signature, for example, probably won't do.
+
+Why two fields for signatures?
+
+The support for signing in the verification field provides a place for gitian
+style signatures or potetentially cothority signatures. This field may simply
+contain a digest of the bytes. The second signature attests the full dataset the
+user is validating
 
 ## API
 
