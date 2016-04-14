@@ -124,7 +124,7 @@ The data that will be signed by verifiers will be a json file of this format:
   ],
   "signature":{
     "type":"saltpack",
-    "sig":"BEGIN SALTPACK SIGNED MESSAGE. kXR7VktZdyH7rvq v5wcIkHbs7XwHpb nPtLcF6vE5yY63t aHF62jiEC1zHGqD inx5YqK0nf5W9Lp TvUmM2zBwxgd3Nw kvzZ96W7ZfDdTVg F5Y99c2l5EsCy1I xVNl0nY1TP25vsX 2cRXXPUrM2UKtWq UK2HG2ifBSOED4w
+    "data":"BEGIN SALTPACK SIGNED MESSAGE. kXR7VktZdyH7rvq v5wcIkHbs7XwHpb nPtLcF6vE5yY63t aHF62jiEC1zHGqD inx5YqK0nf5W9Lp TvUmM2zBwxgd3Nw kvzZ96W7ZfDdTVg F5Y99c2l5EsCy1I xVNl0nY1TP25vsX 2cRXXPUrM2UKtWq UK2HG2ifBSOED4w
     ...
     0hffDmUk71TlfVx XZCF3voC2ysgl3g YdLz4rDRzMJgd2m 01HIbfdsoZpAMty O27WtUNRLV1iyC9 tK5ApCyekI4nWcf 2OvTHnC8ma7bloW XAG. END SALTPACK SIGNED MESSAGE."
   }
@@ -146,7 +146,7 @@ The data that will be signed by verifiers will be a json file of this format:
   * The output of a build may be multiple different files, each of which need to
     be distributed separately, and therefore signed separately. A good label for
     each of these may be the filenames.
-  * A project may be used accross many different linux distributions and
+  * A project may be used across many different linux distributions and
     package repositories, and each of these distributions will require
     distributing the packages in a different manner (`.deb`, `.tar.gz`, ...), so
     therefore each will require separate signatures and appropriate labels.
@@ -157,7 +157,7 @@ The data that will be signed by verifiers will be a json file of this format:
 * `"signature"` - a single signatures that signs a message constructed from the
   preceding fields. Specifically,concatenate the values from "src","version",
   "srcVersion","label",the data field from each verification. This can be either
-  a salpack or gpg signature
+  a saltpack or gpg signature
 
 
   There will be a minimum requirement of at least a particular hash algorithm
@@ -192,7 +192,7 @@ a user identity, so a raw NaCl signature, for example, probably won't do.
 Why two fields for signatures?
 
 The support for signing in the verification field provides a place for gitian
-style signatures or potetentially cothority signatures. This field may simply
+style signatures or potentially cothority signatures. This field may simply
 contain a digest of the bytes. The second signature attests the full dataset the
 user is validating
 
@@ -316,8 +316,8 @@ GET /api/projects/1234/a307ff350c4f2ef0c778b1e2fd4656cb6ac086e6
       },
       "versions": {
         "3.15.2": 101,
-        "v3.15.2": 20,
         "v3.15.1": 1
+        "v3.15.2": 20,
       },
       "labels": {
         "Play Store APK": 95,
