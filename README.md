@@ -153,11 +153,12 @@ The data that will be signed by verifiers will be a json file of this format:
 * `"verifications"` - a list of verifications, either just hashes of the files,
   or a gpg signature of the file.
 
-
 * `"signature"` - a single signatures that signs a message constructed from the
-  preceding fields. Specifically,concatenate the values from "src","version",
-  "srcVersion","label",the data field from each verification. This can be either
-  a saltpack or gpg signature
+  preceding fields. Specifically form a canonical version of the precedeing
+  fields. Encode these fields as a string. Removal white space and sign it. The
+  order of the fields is 1. "src" 2."version" 3. "srcVersion" 4."label" 5.
+  "verifications". Implementers should cache the canonical json to allow valid
+  signatures to remain after scheme updates.
 
 
   There will be a minimum requirement of at least a particular hash algorithm
