@@ -108,20 +108,22 @@ The data that will be signed by verifiers will be a json file of this format:
 
 ```json
 {
-  "src": "https://github.com/WhisperSystems/Signal-Android.git",
-  "version": "3.15.2",
-  "srcVersion": "a307ff350c4f2ef0c778b1e2fd4656cb6ac086e6",
-  "label": "Play Store APK",
-  "verifications": [
-    {
-      "type": "gpg",
-      "data": "-----BEGIN PGP SIGNATURE-----\nComment: ..."
-    },
-    {
-      "type": "sha256",
-      "data": "097a35284640d7fad85ff00b3ac100bcc207556176080071723c4bed37889057"
-    },
-  ],
+  "data":{
+    "src": "https://github.com/WhisperSystems/Signal-Android.git",
+    "version": "3.15.2",
+    "srcVersion": "a307ff350c4f2ef0c778b1e2fd4656cb6ac086e6",
+    "label": "Play Store APK",
+    "verifications": [
+      {
+        "type": "gpg",
+        "data": "-----BEGIN PGP SIGNATURE-----\nComment: ..."
+      },
+      {
+        "type": "sha256",
+        "data": "097a35284640d7fad85ff00b3ac100bcc207556176080071723c4bed37889057"
+      }
+    ]
+  },
   "signature":{
     "type":"saltpack",
     "data":"BEGIN SALTPACK SIGNED MESSAGE. kXR7VktZdyH7rvq v5wcIkHbs7XwHpb nPtLcF6vE5yY63t aHF62jiEC1zHGqD inx5YqK0nf5W9Lp TvUmM2zBwxgd3Nw kvzZ96W7ZfDdTVg F5Y99c2l5EsCy1I xVNl0nY1TP25vsX 2cRXXPUrM2UKtWq UK2HG2ifBSOED4w
@@ -154,11 +156,11 @@ The data that will be signed by verifiers will be a json file of this format:
   or a gpg signature of the file.
 
 * `"signature"` - a single signatures that signs a message constructed from the
-  preceding fields. Specifically form a canonical version of the precedeing
-  fields. Encode these fields as a string. Removal white space and sign it. The
-  order of the fields is 1. "src" 2."version" 3. "srcVersion" 4."label" 5.
-  "verifications". Implementers should cache the canonical json to allow valid
-  signatures to remain after scheme updates.
+  preceding fields. Specifically form a canonical version of the object with the
+  top level "data" key. Encode these fields as a string. Removal white space and
+  sign it. The order of the fields is 1. "src" 2."version" 3. "srcVersion"
+  4."label" 5. "verifications". Implementers should cache the canonical json to
+  allow valid signatures to remain after scheme updates.
 
 
   There will be a minimum requirement of at least a particular hash algorithm
